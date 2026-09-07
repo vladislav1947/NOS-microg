@@ -2,36 +2,23 @@
 
 Magisk modules for removing/replacing Google applications on stock Android 11-15.
 
-## Modules
-
-Name | Description
---- | ---
-Noogle microG | Installs microG Services in place of Google Services (if present)
-Noogle Debloat [WIP] | Removes other Google system apps from Android (still can be installed from store)
-
 ## Install
-
-It requires Magisk to be installed obviously as it's a Magisk module. If you don't have it yet, consult the [official installation instructions](https://topjohnwu.github.io/Magisk/install.html).
-
-> [!TIP]
-> It's a good idea to enable ADB debugging as well before installing in case of any issues.
 
 1. Download latest version from [releases](https://github.com/SelfRef/noogle-magisk/releases)
     - Or build it yourself
-2. Install through Magisk app
+2. Install through Magisk or KSU
 3. Reboot
-4. In Magisk click "Action" button next to module to grant permissions
+4. In Magisk/KSU click "Action" button next to module to grant permissions
     - Or open microG app and grant them through Self-Check
 5. Ensure all permission boxes are checked in Self-Check
     - If not, tap them to set the correct option
 6. Check signature spoofing status at the top
-    - If your ROM doesn't support signature spoofing, you must add it: [check troubleshooting](#signatures-are-not-correct)
+    - If your ROM doesn't support signature spoofing, you must add it: [check troubleshooting](#signatures-are-not-correct) https://github.com/whew-inc/FakeGApps
 7. If you have issues with microG crashing, install microG as user apps: [check troubleshooting](#microg-crashing)
     - You can do it quickly using `scripts/install-user-apks.sh`
 
 ## Build
 
-0. Use Linux, Mac or WSL on Windows
 1. Install `zip`, `curl`, `jq` if not present
 2. [Download APKs manually](https://microg.org/download.html) and place in `apk/` directory
 3. Run `scripts/build-noogle-microg.sh`
