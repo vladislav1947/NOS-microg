@@ -1,10 +1,11 @@
-# noogle-magisk
+# NOS-microg
 
-Magisk modules for removing/replacing Google applications on stock Android 11-15.
+Root module for replacing Google applications on stock Android 11-17 with open-source alternative.
 
 ## Install
 
-1. Download latest version from [releases](https://github.com/SelfRef/noogle-magisk/releases)
+0. Turn on ADB for fixing crashing in bootloop case [check troubleshooting](#bootloop)
+1. Download latest version from [releases](https://github.com/vladislav1947/NOS-microg/releases)
     - Or build it yourself
 2. Install through Magisk or KSU
 3. Reboot
@@ -13,7 +14,7 @@ Magisk modules for removing/replacing Google applications on stock Android 11-15
 5. Ensure all permission boxes are checked in Self-Check
     - If not, tap them to set the correct option
 6. Check signature spoofing status at the top
-    - If your ROM doesn't support signature spoofing, you must add it: [check troubleshooting](#signatures-are-not-correct) https://github.com/whew-inc/FakeGApps
+    - If your ROM doesn't support signature spoofing, you must add it: [check troubleshooting](#signatures-are-not-correct)
 7. If you have issues with microG crashing, install microG as user apps: [check troubleshooting](#microg-crashing)
     - You can do it quickly using `scripts/install-user-apks.sh`
 
@@ -28,33 +29,16 @@ Magisk modules for removing/replacing Google applications on stock Android 11-15
 
 ## Tested
 
-### Configurations
-
-Module/Type | Notes
-:--- | ---
-LSPosed + FakeGapps | Both official and from JingMatrix
-Play Integrity Fix | Requires installing user updates
-User updates | Installing microG updates from F-Droid repo
-
-### Devices
-The module was tested on:
-Device | OS | Android Version
-:--- | :---: | :---:
-Nothing Phone (1) | NothingOS 3.0 | 15
-Lenovo Yoga Tab 13 | Stock | 13
-Samsung Galaxy Tab S | LineageOS 17.1 | 10
-
-More to come...
 
 ## Troubleshooting
 
 ### Signatures are not correct
 In order for microG apps to have the correct signatures visible by Android, your ROM must allow for [signature spoofing](https://github.com/microg/GmsCore/wiki/Signature-Spoofing). If it does not (like any stock Android), this is the way I recommend:
 
-1. Enable Zygisk in Magisk's settings
+1. Enable Zygisk implementation in Magisk/KSU 's settings
 2. Download and install LSPosed through Magisk
-    - [JingMatrix fork](https://github.com/JingMatrix/LSPosed/releases) up to Android 15 (maintained)
-    - [Official version](https://github.com/LSPosed/LSPosed/releases) up to Android 14 (not maintaned anymore)
+    - [JingMatrix fork](https://github.com/JingMatrix/LSPosed/releases) up to Android 16
+    - Any other verified implementation
 3. Download and install [FakeGApps](https://github.com/whew-inc/FakeGApps/releases) APK
 4. Reboot
 5. Open LSPosed from notifications and enable FakeGapps module
@@ -67,8 +51,6 @@ If you want to use other modules interacting with microG, like Play Integrity Fi
 
 ### Bootloop
 In this case if you have ADB debugging enabled just connect your phone to PC and run `scripts/disable-noogle.sh` in terminal. It will disable Noogle microG module and reboot your device.
-
-More nuclear option is to run `adb shell magisk --remove-modules`. It will remove all modules from Magisk and reboot.
 
 If you don't have ADB enabled, you may try to restart the device a few times (holding Power + Vol-) while keeping Vol- for a while until animalted boot animation will start. This will trigger Magisk safe mode and modules will be disabled. More about this in [official documentation](https://topjohnwu.github.io/Magisk/faq.html).
 
