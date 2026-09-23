@@ -95,7 +95,7 @@ cp "$apk_dir"/com.google.android.gsf* "$module_dir/$gsf_dir/GoogleServicesFramew
 
 echo "[P] Copying module files to module directory..."
 cp -r "$src_dir/$module_dir"/* "$module_dir/"
-mv "$module_dir/etc" "$module_dir/$destination_dir/"
+mv "$module_dir/etc" "$module_dir/$app_destination_dir/"
 
 echo "[P] Pathing customize script..."
 sed -i "1i gms_path=$gms_path" "$module_dir/customize.sh"
