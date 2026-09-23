@@ -5,6 +5,8 @@ src_dir=src
 dist_dir=dist
 module_dir=module-microg
 destination_dir=system/product
+app_destination_dir=product
+gsf_destination_dir=system_ext
 suffix=MG
 
 show_help() {
@@ -12,28 +14,34 @@ show_help() {
 	echo "Options:"
 	echo "  -h          Show this help message"
 	echo "  -d <dir>    Specify the destination partition [system|product|system_ext] (default: product)"
+	echo "  -g <dir>    Specify destination for GSF [system|product|system_ext] (default: system_ext)"
 	echo "  -s <suffix>  Specify the suffix to add to the directories and APK names (default: MG)"
 	exit 0
 }
 
-while getopts "hd:s:" opt; do
+while getopts "hd:g:s:" opt; do
 	case $opt in
 		h)
 			show_help
 			;;
 		d)
 			case $OPTARG in
-				system)
-					destination_dir=system
-					;;
-				product)
-					destination_dir=system/product
-					;;
-				system_ext)
-					destination_dir=system/system_ext
+				system|product|system_ext)
+					app_destination_dir=$OPTARG
 					;;
 				*)
 					echo "[E] Invalid destination partition: $OPTARG"
+					show_help
+					;;
+			esac
+			;;
+		g)
+			case $OPTARG in
+				system|product|system_ext)
+					gsf_destination_dir=$OPTARG
+					;;
+				*)
+					echo "[E] Invalid GSF destination partition: $OPTARG"
 					show_help
 					;;
 			esac
@@ -72,15 +80,18 @@ elif [ "$apk_count" -gt 3 ]; then
 fi
 
 echo "[P] Copying APKs to module directory..."
-gms_dir="$destination_dir/priv-app/GmsCore$suffix"
+gms_dir="$app_destination_dir/priv-app/GmsCore$suffix"
+phonesky_dir="$app_destination_dir/priv-app/Phonesky$suffix"
+gsf_dir="$gsf_destination_dir/priv-app/GoogleServicesFramework$suffix"
+
 mkdir -p "$module_dir/$gms_dir"
-mkdir -p "$module_dir/$destination_dir/priv-app/Phonesky$suffix"
-mkdir -p "$module_dir/$destination_dir/priv-app/GoogleServicesFramework$suffix"
+mkdir -p "$module_dir/$phonesky_dir"
+mkdir -p "$module_dir/$gsf_dir"
 
 gms_path="$gms_dir/GmsCore$suffix.apk"
 cp "$apk_dir"/com.google.android.gms* "$module_dir/$gms_path"
-cp "$apk_dir"/com.android.vending* "$module_dir/$destination_dir/priv-app/Phonesky$suffix/Phonesky$suffix.apk"
-cp "$apk_dir"/com.google.android.gsf* "$module_dir/$destination_dir/priv-app/GoogleServicesFramework$suffix/GoogleServicesFramework$suffix.apk"
+cp "$apk_dir"/com.android.vending* "$module_dir/$phonesky_dir/Phonesky$suffix.apk"
+cp "$apk_dir"/com.google.android.gsf* "$module_dir/$gsf_dir/GoogleServicesFramework$suffix.apk"
 
 echo "[P] Copying module files to module directory..."
 cp -r "$src_dir/$module_dir"/* "$module_dir/"
