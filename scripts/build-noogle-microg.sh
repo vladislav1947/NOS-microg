@@ -5,7 +5,6 @@ src_dir=src
 dist_dir=dist
 module_dir=module-microg
 destination_dir=system/product
-gsf_destination_dir=system/system_ext/priv-app
 suffix=MG
 
 show_help() {
@@ -74,16 +73,14 @@ fi
 
 echo "[P] Copying APKs to module directory..."
 gms_dir="$destination_dir/priv-app/GmsCore$suffix"
-gsf_dir="$gsf_destination_dir/GoogleServicesFramework$suffix"
-
 mkdir -p "$module_dir/$gms_dir"
 mkdir -p "$module_dir/$destination_dir/priv-app/Phonesky$suffix"
-mkdir -p "$module_dir/$gsf_dir"
+mkdir -p "$module_dir/$destination_dir/priv-app/GoogleServicesFramework$suffix"
 
 gms_path="$gms_dir/GmsCore$suffix.apk"
 cp "$apk_dir"/com.google.android.gms* "$module_dir/$gms_path"
 cp "$apk_dir"/com.android.vending* "$module_dir/$destination_dir/priv-app/Phonesky$suffix/Phonesky$suffix.apk"
-cp "$apk_dir"/com.google.android.gsf* "$module_dir/$gsf_dir/GoogleServicesFramework$suffix.apk"
+cp "$apk_dir"/com.google.android.gsf* "$module_dir/$destination_dir/priv-app/GoogleServicesFramework$suffix/GoogleServicesFramework$suffix.apk"
 
 echo "[P] Copying module files to module directory..."
 cp -r "$src_dir/$module_dir"/* "$module_dir/"
